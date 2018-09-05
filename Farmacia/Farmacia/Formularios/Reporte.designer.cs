@@ -228,7 +228,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(358, 193);
+            this.tabPage6.Size = new System.Drawing.Size(362, 193);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "Tabla";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -242,7 +242,7 @@
             this.GridInventario.Location = new System.Drawing.Point(3, 3);
             this.GridInventario.Name = "GridInventario";
             this.GridInventario.ReadOnly = true;
-            this.GridInventario.Size = new System.Drawing.Size(352, 187);
+            this.GridInventario.Size = new System.Drawing.Size(356, 187);
             this.GridInventario.TabIndex = 2;
             // 
             // label1
@@ -297,7 +297,7 @@
             this.groupBox1.Size = new System.Drawing.Size(376, 291);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ventas";
+            this.groupBox1.Text = "Total Vendido";
             // 
             // tabControl2
             // 

@@ -30,7 +30,7 @@ namespace Farmacia
 
         public Conexion()
         {
-            Cadena = new SQLiteConnection("Data Source=DB.db3;Version=3;New=false;Compress=true");
+            Cadena = new SQLiteConnection("Data Source=DB.db;Version=3;New=false;Compress=true,Read Only=false");
         }
 
         public void Conectar()
@@ -234,7 +234,7 @@ namespace Farmacia
             Conectar();
             try
             {
-                Command = new SQLiteCommand("Insert Into Inventario Values('" + Codigo + "','" + Nombre + "','" + Tipo + "','" + Cantidad + "','" + Precio_Compra + "','" + Precio_Unitario + "','" + String.Format("{0:d}",Fecha_Compra.Date) + "','" + String.Format("{0:d}",Fecha_Vencimiento.Date)+ "');", Cadena);
+                Command = new SQLiteCommand("Insert Into Inventario Values('" + Codigo + "','" + Upper.ConvertFirtsCharToUpperString(Nombre) + "','" + Upper.ConvertFirtsCharToUpperString(Tipo) + "','" + Cantidad + "','" + Precio_Compra + "','" + Precio_Unitario + "','" + String.Format("{0:d}",Fecha_Compra.Date) + "','" + String.Format("{0:d}",Fecha_Vencimiento.Date)+ "');", Cadena);
 
                 int query = Command.ExecuteNonQuery();
 
@@ -264,6 +264,30 @@ namespace Farmacia
                 Console.WriteLine(Ex.Message);
             }
             return false;
+        }
+
+        public DataTable Buscar_Producto(string Nombre)
+        {
+            Conectar();
+            try
+            {
+                Adacter = new SQLiteDataAdapter("Select * From Inventario Where Producto Like '"+Upper.ConvertFirtsCharToUpperString(Nombre)+ "%'", Cadena);
+
+                Tabla = new DataTable();
+
+                Adacter.Fill(Tabla);
+
+                Cadena.Close();
+
+                return Tabla;
+
+            }
+            catch (SQLiteException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+            Cadena.Close();
+            return null;
         }
 
         public void getProductos(int Id)

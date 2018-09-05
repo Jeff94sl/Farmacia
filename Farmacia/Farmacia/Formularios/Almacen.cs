@@ -21,9 +21,16 @@ namespace Farmacia
 
         void DatosCellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewRow Rows = Datos.Rows[e.RowIndex];
+            try
+            {
+                DataGridViewRow Rows = Datos.Rows[e.RowIndex];
 
-            Id = int.Parse(Rows.Cells["Id"].Value.ToString());
+                Id = int.Parse(Rows.Cells["Id"].Value.ToString());
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
         }
 
         void AgreagarToolStripMenuItemClick(object sender, EventArgs e)
@@ -60,7 +67,13 @@ namespace Farmacia
         void RefrescarToolStripMenuItemClick(object sender, EventArgs e)
         {
             Datos.DataSource = null;
-            Datos.DataSource = Co.getInventario();
+            Datos.DataSource = Co.getInventario(); 
+        }
+
+        private void Buscar_Click(object sender, EventArgs e)
+        {
+            Datos.DataSource = null;
+            Datos.DataSource = Co.Buscar_Producto(BuscarTxt.Text);
         }
     }
 }

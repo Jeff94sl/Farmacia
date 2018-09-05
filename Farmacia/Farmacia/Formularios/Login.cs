@@ -50,6 +50,7 @@ namespace Farmacia
             Us.Cargar_Usuarios(Nombres);
 
             UsersTxt.DataSource = Nombres;
+            Us = null;
         }
 
         void PassTxtKeyPress(object sender, KeyPressEventArgs e)
