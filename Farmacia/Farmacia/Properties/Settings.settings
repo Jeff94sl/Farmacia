@@ -5,5 +5,51 @@
     <Setting Name="IdGlobal" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Data" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "Venta" (
+	"Id_Venta"	int NOT NULL,
+	"Producto"	text NOT NULL,
+	"Cantidad"	int NOT NULL,
+	"Id_Vendedor"	int NOT NULL,
+	"Fecha_de_Venta"	text NOT NULL,
+	"Total_Vendido"	decimal(0 , 5) NOT NULL,
+	FOREIGN KEY("Id_Vendedor") REFERENCES "Usuario"("Id"),
+	PRIMARY KEY("Id_Venta")
+);
+CREATE TABLE IF NOT EXISTS "Inventario" (
+	"Id"	int NOT NULL,
+	"Producto"	text NOT NULL,
+	"Tipo"	text NOT NULL,
+	"Cantidad"	int NOT NULL,
+	"Precio_Compra"	decimal(0 , 5) NOT NULL,
+	"Precio_Unitario"	decimal(0 , 5) NOT NULL,
+	"Fecha_Compra"	text NOT NULL,
+	"Fecha_Vencimiento"	text NOT NULL,
+	PRIMARY KEY("Id")
+);
+CREATE TABLE IF NOT EXISTS "Costos_TP" (
+	"Id_Costo"	int NOT NULL,
+	"Id_Producto"	int NOT NULL,
+	"Total_CP"	decimal(0 , 5) NOT NULL,
+	PRIMARY KEY("Id_Costo"),
+	FOREIGN KEY("Id_Producto") REFERENCES "Inventario"("Id")
+);
+CREATE TABLE IF NOT EXISTS "Usuario" (
+	"Id"	int NOT NULL,
+	"Nombre"	text NOT NULL,
+	"Apellido"	text NOT NULL,
+	"Telefono"	int NOT NULL,
+	"Direccion"	text NOT NULL,
+	"Contrasena"	text NOT NULL,
+	"Administrador"	bool NOT NULL,
+	PRIMARY KEY("Id")
+);
+INSERT INTO "Usuario" VALUES (1,'root','root',0,'Nicaragua','dc76e9f0c0006e8f919e0c515c66dbba3982f785','true');
+CREATE VIEW Costo 
+As 
+Select Id_Producto,Inventario.Producto as Producto, Inventario.Cantidad as Cantidad,Inventario.Fecha_Compra as Fecha_Compra, Costos_TP.Total_CP as Total_Costo, (Select (Select Precio_Unitario From Inventario Where Id=Id_Producto)*(Select Cantidad From Inventario Where Id=Id_Producto)) As Total_Venta From Costos_TP inner join Inventario on Inventario.Id = Costos_TP.Id_Producto;
+COMMIT;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

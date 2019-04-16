@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 
 namespace Farmacia
 {
@@ -30,7 +31,18 @@ namespace Farmacia
 
         public Conexion()
         {
-            Cadena = new SQLiteConnection("Data Source=DB.db;Version=3;New=false;Compress=true,Read Only=false");
+            if (File.Exists("DB.db"))
+            {
+                Cadena = new SQLiteConnection("Data Source=DB.db;Version=3;New=false;Compress=true,Read Only=false");
+            }
+            else
+            {
+                Cadena = new SQLiteConnection("Data Source=DB.db;Version=3;New=false;Compress=true,Read Only=false");
+                Cadena.Open();
+                Command = new SQLiteCommand(Properties.Settings.Default.Data,Cadena);
+                Command.ExecuteNonQuery();
+                Cadena.Close();
+            }
         }
 
         public void Conectar()
